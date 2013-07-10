@@ -234,7 +234,7 @@ function JSFind(target, searchDiv, cl) {
 
 	this.setMatchesText = function() {
 		this.matches.innerHTML = (this.currentSpan[0] + 1) + " of " + this.ranges.length;
-		if (this.input.value == '') {
+		if (this.input.value === '') {
 			this.matches.innerHTML = '';
 		}
 
