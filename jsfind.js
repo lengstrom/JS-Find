@@ -234,6 +234,10 @@ function JSFind(target, searchDiv, cl) {
 
 	this.setMatchesText = function() {
 		this.matches.innerHTML = (this.currentSpan[0] + 1) + " of " + this.ranges.length;
+		if (this.input.value == '') {
+			this.matches.innerHTML = '';
+		}
+
 		$('.sideLight').remove();
 		if (this.currentSpan[0] != -1) {
 			for (var i = 0; i < this.ranges.length; i++) {
