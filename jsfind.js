@@ -13,6 +13,14 @@ function JSFind(target, searchDiv, cl) {
 		$(searchDiv).animate({top:'-33px'}, 75, "linear");
 		this.input.blur();
 		this.hidden = 1;
+		$('.sideLight').remove();
+		for (i = 0; i < this.ranges.length; i++) {
+			this.cssApplier.undoToRange(this.ranges[i]);
+		}
+
+		if (this.currentSpan[1]) {
+			this.cssApplierCurrent.undoToRange(this.currentSpan[1]);
+		}
 	};
 
 	this.show = function() {
@@ -263,10 +271,22 @@ function JSFind(target, searchDiv, cl) {
 			this.currentSpan = [0, this.ranges[0]];
 		} else {
 			var targetOffset = $(this.currentSpan[1].startContainer.parentNode).offset().top;
-			for (var i = 0; i < this.ranges.length; i++) {
-				if (this.ranges[i].startContainer == this.currentSpan[1].startContainer || $(this.ranges[i].startContainer.parentNode).offset().top + 2 >= targetOffset) {
+			var q = 0;
+			var i;
+			for (i = 0; i < this.ranges.length; i++) {
+				if ((this.ranges[i].startContainer == this.currentSpan[1].startContainer && this.ranges[i].startOffset == this.currentSpan[1].startOffset)) {
 					this.currentSpan = [i, this.ranges[i]];
-					break;
+					q = 1;
+					if ($(this.ranges[i].startContainer.parentNode).offset().top > targetOffset) break;
+				}
+			}
+
+			if (!q) {
+				for (i = 0; i < this.ranges.length; i++) {
+					if ($(this.ranges[i].startContainer.parentNode).offset().top + 2 >= targetOffset) {
+						this.currentSpan = [i, this.ranges[i]];
+						break;
+					}
 				}
 			}
 		}
